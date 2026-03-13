@@ -67,11 +67,21 @@
 </button>
 </form>
 <div class="header-search__tags">
-<a href="{{ routes.search_url }}?q=anarkali+kurti&type=product" class="header-search__tag">Anarkali Kurti</a>
-<a href="{{ routes.search_url }}?q=cotton+kurti&type=product" class="header-search__tag">Cotton Kurti</a>
-<a href="{{ routes.search_url }}?q=palazzo+set&type=product" class="header-search__tag">Palazzo Set</a>
-<a href="{{ routes.search_url }}?q=party+wear&type=product" class="header-search__tag">Party Wear</a>
-<a href="{{ routes.search_url }}?q=new+arrivals&type=product" class="header-search__tag">New Arrivals</a>
+{% if section.settings.search_tag_1 != blank %}
+<a href="{{ routes.search_url }}?q={{ section.settings.search_tag_1 | url_encode }}&type=product" class="header-search__tag">{{ section.settings.search_tag_1 }}</a>
+{% endif %}
+{% if section.settings.search_tag_2 != blank %}
+<a href="{{ routes.search_url }}?q={{ section.settings.search_tag_2 | url_encode }}&type=product" class="header-search__tag">{{ section.settings.search_tag_2 }}</a>
+{% endif %}
+{% if section.settings.search_tag_3 != blank %}
+<a href="{{ routes.search_url }}?q={{ section.settings.search_tag_3 | url_encode }}&type=product" class="header-search__tag">{{ section.settings.search_tag_3 }}</a>
+{% endif %}
+{% if section.settings.search_tag_4 != blank %}
+<a href="{{ routes.search_url }}?q={{ section.settings.search_tag_4 | url_encode }}&type=product" class="header-search__tag">{{ section.settings.search_tag_4 }}</a>
+{% endif %}
+{% if section.settings.search_tag_5 != blank %}
+<a href="{{ routes.search_url }}?q={{ section.settings.search_tag_5 | url_encode }}&type=product" class="header-search__tag">{{ section.settings.search_tag_5 }}</a>
+{% endif %}
 </div>
 </div>
 </div>
@@ -184,5 +194,5 @@ My Account
 </header>
 
 {% schema %}
-{"name":"Header","settings":[{"type":"image_picker","id":"logo","label":"Logo image"},{"type":"link_list","id":"menu","label":"Main menu","default":"main-menu"},{"type":"checkbox","id":"show_announcement","label":"Account for announcement bar height","default":true}]}
+{"name":"Header","settings":[{"type":"image_picker","id":"logo","label":"Logo image"},{"type":"link_list","id":"menu","label":"Main menu","default":"main-menu"},{"type":"checkbox","id":"show_announcement","label":"Account for announcement bar height","default":true},{"type":"header","content":"Search Suggestions"},{"type":"text","id":"search_tag_1","label":"Search suggestion 1","default":"New Arrivals"},{"type":"text","id":"search_tag_2","label":"Search suggestion 2","default":"Best Sellers"},{"type":"text","id":"search_tag_3","label":"Search suggestion 3","default":"Sale"},{"type":"text","id":"search_tag_4","label":"Search suggestion 4"},{"type":"text","id":"search_tag_5","label":"Search suggestion 5"}]}
 {% endschema %}

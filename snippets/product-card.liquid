@@ -38,17 +38,8 @@ height="533"
 {% endif %}
 </a>
 
-{% comment %} --- Resolve MRP from compare_at_price or mrp-XXX tag --- {% endcomment %}
+{% comment %} --- Resolve compare price from compare_at_price --- {% endcomment %}
 {% assign card_mrp = product.compare_at_price %}
-{% if card_mrp == blank or card_mrp == 0 or card_mrp <= product.price %}
-  {% for tag in product.tags %}
-    {% assign tag_lower = tag | downcase %}
-    {% if tag_lower contains 'mrp-' %}
-      {% assign card_mrp = tag_lower | remove: 'mrp-' | plus: 0 | times: 100 %}
-      {% break %}
-    {% endif %}
-  {% endfor %}
-{% endif %}
 
 {% if card_mrp > product.price %}
 <span class="product-card__badge product-card__badge--sale">
@@ -97,19 +88,15 @@ data-product-image="{% if product.featured_image != blank %}{{ product.featured_
 {% endif %}
 {% for tag in product.tags %}
 {% assign tag_lower = tag | downcase %}
-{% if tag_lower contains 'fabric:' or tag_lower contains 'fabric-' %}
-<div class="product-card__fabric">{{ tag | remove: 'fabric:' | remove: 'Fabric:' | remove: 'fabric-' | remove: 'Fabric-' | strip }}</div>
-{% endif %}
+{% comment %} Custom tag display removed — use product.type or variant metafields instead {% endcomment %}
 {% endfor %}
 <a href="{{ product.url }}" class="product-card__title-link">
 <h3 class="product-card__title">{{ product.title }}</h3>
 </a>
 <div class="product-card__price-row">
 {% if card_mrp > product.price %}
-{% assign card_price_num = product.price | divided_by: 100 %}
-{% assign card_mrp_num = card_mrp | divided_by: 100 %}
-<span class="product-card__price product-card__price--sale">₹{{ card_price_num }}/-</span>
-<span class="product-card__price product-card__price--compare"><s>₹{{ card_mrp_num }}/-</s></span>
+<span class="product-card__price product-card__price--sale">{{ product.price | money }}</span>
+<span class="product-card__price product-card__price--compare"><s>{{ card_mrp | money }}</s></span>
 <span class="product-card__price-off">{{ card_mrp | minus: product.price | times: 100 | divided_by: card_mrp }}% OFF</span>
 {% else %}
 <span class="product-card__price">{{ product.price | money }}</span>

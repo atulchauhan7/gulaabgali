@@ -100,7 +100,7 @@
           "type": "banner",
           "settings": {
             "image": "shopify://shop_images/0474.jpg",
-            "heading": "Straight Kurtis",
+            "heading": "New Arrivals",
             "button_label": "Shop Now",
             "link": ""
           }
@@ -116,8 +116,8 @@
       "type": "featured-collection",
       "settings": {
         "subtitle": "Curated For You",
-        "title": "Featured Kurtis",
-        "description": "Handpicked ethnic wear that embodies elegance and timeless Indian craftsmanship",
+        "title": "Featured Products",
+        "description": "Handpicked pieces that embody elegance and timeless craftsmanship",
         "collection": "frontpage",
         "products_to_show": 8,
         "columns": "4",
@@ -175,13 +175,13 @@
         "t2": {
           "type": "text",
           "settings": {
-            "text": "Free Shipping Over ₹999"
+            "text": "Free Shipping Over $100"
           }
         },
         "t3": {
           "type": "text",
           "settings": {
-            "text": "COD Available"
+            "text": "30-Day Easy Returns"
           }
         },
         "t4": {
@@ -205,7 +205,7 @@
         "image": "shopify://shop_images/Logo_page-0001.jpg",
         "subtitle": "Our Story",
         "heading": "Crafted with Love",
-        "text": "<p>Every kurti in our collection is thoughtfully designed, blending traditional Indian craftsmanship with contemporary style. From handpicked fabrics to intricate detailing, we create ethnic wear that celebrates the grace of every woman.</p>",
+        "text": "<p>Every product in our collection is thoughtfully designed, blending quality craftsmanship with contemporary style. From carefully selected materials to refined detailing, we create pieces that celebrate individuality and timeless design.</p>",
         "button_label": "Learn More",
         "button_link": "",
         "reverse": false
@@ -218,8 +218,8 @@
           "type": "usp",
           "settings": {
             "icon": "returns",
-            "title": "10-Day Easy Return Policy",
-            "text": "Hassle-free returns within 10 days",
+            "title": "30-Day Easy Return Policy",
+            "text": "Hassle-free returns within 30 days",
             "link_label": "Learn More",
             "link_url": "/policies/refund-policy"
           }
@@ -228,8 +228,8 @@
           "type": "usp",
           "settings": {
             "icon": "shipping",
-            "title": "Free Shipping & COD",
-            "text": "Free shipping and cash on delivery available",
+            "title": "Free Shipping",
+            "text": "Free shipping on orders over $100",
             "link_label": "Learn More",
             "link_url": "/pages/shipping"
           }

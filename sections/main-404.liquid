@@ -1,0 +1,19 @@
+<div class="page-404" data-animate="fade-up">
+  <div>
+    <div class="page-404__code">404</div>
+    <h1 class="page-404__title">Page Not Found</h1>
+    <p class="page-404__text">Sorry, the page you're looking for doesn't exist or has been moved.</p>
+    <form action="{{ routes.search_url }}" method="get" class="page-404__search" role="search">
+      <input type="search" name="q" placeholder="Search our store..." aria-label="Search" class="form-input">
+      <button type="submit" class="btn btn--primary">Search</button>
+    </form>
+    <a href="{{ routes.root_url }}" class="btn btn--secondary btn--large" style="margin-top:1rem">Back to Home</a>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "404 page",
+  "settings": []
+}
+{% endschema %}

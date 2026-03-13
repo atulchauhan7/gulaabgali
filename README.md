@@ -1,6 +1,6 @@
 # Luxe Theme — Shopify Theme
 
-A premium, minimal Shopify theme built for an Indian ladies kurti e-commerce store. Features smooth animations, custom cursor, parallax effects, size chart, color swatches, and a refined editorial aesthetic.
+A premium, minimal Shopify theme for fashion and lifestyle stores. Features smooth animations, custom cursor, parallax effects, size chart, color swatches, and a refined editorial aesthetic.
 
 ---
 
@@ -205,9 +205,9 @@ templates/       → Page templates (product, collection, cart, index, etc.)
 - Product gallery with swipe and zoom
 - Magnetic buttons and tilt effects
 - Cart drawer with AJAX add-to-cart and free shipping progress bar
-- Color swatches with Indian color name support (maroon, wine, dusty rose, etc.)
+- Color swatches with variant color support
 - Size chart modal with measurement guide
-- Kurti-specific product meta (fabric, fit, sleeve, occasion, length)
+- Product meta support (fabric, fit, size, occasion)
 - Newsletter popup
 - Search overlay with product type filter
 - Fully responsive design

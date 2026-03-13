@@ -1,0 +1,41 @@
+<div class="page-template">
+  <div class="container">
+    <div class="page-header" data-animate="fade-up">
+      <h1>{{ page_title | default: 'Collections' }}</h1>
+    </div>
+    {% paginate collections by 12 %}
+    <div class="grid grid--3" data-animate-stagger>
+      {% for collection in collections %}
+      {% unless collection.handle == 'frontpage' %}
+      <a href="{{ collection.url }}" class="collection-card" data-animate="fade-up">
+        {% if collection.featured_image != blank %}
+        <img class="collection-card__image"
+             src="{{ collection.featured_image | image_url: width: 800 }}"
+             srcset="{{ collection.featured_image | image_url: width: 400 }} 400w, {{ collection.featured_image | image_url: width: 600 }} 600w, {{ collection.featured_image | image_url: width: 800 }} 800w"
+             sizes="(max-width: 480px) 50vw, (max-width: 768px) 50vw, 33vw"
+             alt="{{ collection.featured_image.alt | default: collection.title | escape }}"
+             loading="lazy" width="800" height="{{ 800 | divided_by: collection.featured_image.aspect_ratio | round }}">
+        {% else %}
+        {{ 'collection-1' | placeholder_svg_tag: 'collection-card__image placeholder-svg' }}
+        {% endif %}
+        <div class="collection-card__overlay">
+          <h3 class="collection-card__title">{{ collection.title }}</h3>
+          <span class="collection-card__count">{{ collection.products_count }} products</span>
+        </div>
+      </a>
+      {% endunless %}
+      {% endfor %}
+    </div>
+    {% if paginate.pages > 1 %}
+    {% render 'pagination', paginate: paginate %}
+    {% endif %}
+    {% endpaginate %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collections list",
+  "settings": []
+}
+{% endschema %}
