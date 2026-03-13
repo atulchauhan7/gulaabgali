@@ -671,6 +671,11 @@ p{margin-bottom:1rem}
 .site-footer__social-link svg{width:17px;height:17px}
 .site-footer__payment{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
 .site-footer__payment svg{width:38px;height:24px;border-radius:3px;flex-shrink:0;display:block}
+.site-footer__localization{display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap}
+.site-footer__localization-form{display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap}
+.site-footer__country-selector select,.site-footer__language-selector select{background:transparent;border:1px solid rgba(255,255,255,0.25);color:rgba(255,255,255,0.75);font-size:0.7rem;padding:4px 8px;border-radius:3px;cursor:pointer;appearance:auto}
+.site-footer__country-selector select:hover,.site-footer__language-selector select:hover{border-color:rgba(255,255,255,0.5);color:#fff}
+.shopify-login-button{margin-left:0.5rem}
 @media(max-width:768px){
   .site-footer__newsletter-inner{flex-direction:column;text-align:center}
   .site-footer__newsletter-form-wrap{min-width:auto;width:100%}

@@ -63,6 +63,34 @@ Chat with us
 
 <div class="site-footer__bottom" data-animate="fade-up" data-animate-delay="200">
 <p>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All Rights Reserved</p>
+<div class="site-footer__localization">
+  {% form 'localization', class: 'site-footer__localization-form' %}
+  {% if localization.available_countries.size > 1 %}
+  <div class="site-footer__country-selector">
+    <label for="footer-country" class="visually-hidden">Country/Region</label>
+    <select id="footer-country" name="country_code" onchange="this.form.submit()">
+      {% for country in localization.available_countries %}
+      <option value="{{ country.iso_code }}" {% if country.iso_code == localization.country.iso_code %}selected{% endif %}>
+        {{ country.name }} ({{ country.currency.iso_code }} {{ country.currency.symbol }})
+      </option>
+      {% endfor %}
+    </select>
+  </div>
+  {% endif %}
+  {% if localization.available_languages.size > 1 %}
+  <div class="site-footer__language-selector">
+    <label for="footer-language" class="visually-hidden">Language</label>
+    <select id="footer-language" name="locale_code" onchange="this.form.submit()">
+      {% for language in localization.available_languages %}
+      <option value="{{ language.iso_code }}" {% if language.iso_code == localization.language.iso_code %}selected{% endif %}>
+        {{ language.endonym_name | capitalize }}
+      </option>
+      {% endfor %}
+    </select>
+  </div>
+  {% endif %}
+  {% endform %}
+</div>
 <div class="site-footer__social">
 {% if settings.social_facebook != blank %}
 <a href="{{ settings.social_facebook }}" class="site-footer__social-link" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
@@ -100,6 +128,7 @@ Chat with us
 {{ type | payment_type_svg_tag }}
 {% endfor %}
 </div>
+{{ shop | login_button: action: 'follow' }}
 </div>
 </div>
 </footer>

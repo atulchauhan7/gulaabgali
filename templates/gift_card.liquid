@@ -1,25 +1,82 @@
-<div class="page-template">
-<div class="container">
-<div class="page-header" data-animate="fade-up">
-<h1>Gift Card</h1>
-</div>
-<div class="page-content text-center" data-animate="fade-up" style="max-width:480px">
-<div class="gift-wrap">
-{% if gift_card.image %}
-<img src="{{ gift_card.image | image_url: width: 400 }}" alt="{{ shop.name | escape }} gift card" loading="lazy" width="300" height="190">
-{% endif %}
-<h2 class="mb-1">{{ gift_card.balance | money }}</h2>
-{% if gift_card.enabled %}
-<p class="gift-status gift-status--on">Active</p>
-{% else %}
-<p class="gift-status gift-status--off">Disabled</p>
-{% endif %}
-<div class="gift-code">{{ gift_card.code | format_code }}</div>
-{% if gift_card.expires_on %}
-<p class="gift-exp">Expires on {{ gift_card.expires_on | date: '%B %d, %Y' }}</p>
-{% endif %}
-</div>
-<a href="{{ routes.root_url }}" class="btn btn--primary">Start Shopping</a>
-</div>
-</div>
-</div>
+﻿<!DOCTYPE html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ 'gift_cards.issued.title' | t: value: gift_card.initial_value | money_without_trailing_zeros, shop: shop.name }}</title>
+{% render 'css-variables' %}
+{{ 'luxe-theme.css' | asset_url | stylesheet_tag }}
+{% assign heading_font = settings.heading_font %}
+{% assign body_font = settings.body_font %}
+<style>
+{{ heading_font | font_face: font_display: 'swap' }}
+{{ body_font | font_face: font_display: 'swap' }}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-body);color:var(--color-text);background:var(--color-background);-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;min-height:100vh;align-items:center;padding:2rem 1rem}
+.gift-card{max-width:480px;width:100%;text-align:center}
+.gift-card__shop-name{font-family:var(--font-heading);font-size:1.5rem;font-weight:500;margin-bottom:2rem;letter-spacing:0.04em;color:var(--color-heading)}
+.gift-card__image-wrap{border-radius:var(--border-radius,0);overflow:hidden;margin-bottom:1.5rem;background:var(--color-surface)}
+.gift-card__image-wrap img{width:100%;height:auto;display:block}
+.gift-card__balance{font-family:var(--font-heading);font-size:2.5rem;font-weight:400;margin-bottom:0.5rem;color:var(--color-heading)}
+.gift-card__status{display:inline-block;padding:4px 12px;border-radius:20px;font-size:0.75rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:1.5rem}
+.gift-card__status--active{background:rgba(34,197,94,0.15);color:#16a34a}
+.gift-card__status--disabled{background:rgba(239,68,68,0.15);color:#dc2626}
+.gift-card__code-wrap{border:2px dashed var(--color-border);border-radius:var(--border-radius,0);padding:1.25rem;margin-bottom:1.5rem}
+.gift-card__code{font-family:monospace;font-size:1.4rem;letter-spacing:0.15em;color:var(--color-heading);user-select:all;word-break:break-all}
+.gift-card__expires{font-size:0.8rem;color:var(--color-text-muted);margin-top:0.5rem}
+.gift-card__qr{margin:1.5rem auto;display:flex;justify-content:center}
+.gift-card__qr img{border:1px solid var(--color-border);border-radius:4px;padding:8px;background:#fff}
+.gift-card__actions{display:flex;flex-direction:column;gap:0.75rem;margin-top:1.5rem}
+.gift-card__actions .btn{width:100%;justify-content:center}
+.gift-card__note{font-size:0.75rem;color:var(--color-text-muted);margin-top:1.5rem;line-height:1.6}
+@media print{.gift-card__actions{display:none}body{padding:0}}
+</style>
+</head>
+<body>
+<main class="gift-card" role="main">
+  <h1 class="gift-card__shop-name">{{ shop.name }}</h1>
+
+  {% if gift_card.image %}
+  <div class="gift-card__image-wrap">
+    <img src="{{ gift_card.image | image_url: width: 480 }}" alt="{{ shop.name | escape }} gift card" width="480" height="300" loading="eager">
+  </div>
+  {% endif %}
+
+  <p class="gift-card__balance">{{ gift_card.balance | money }}</p>
+
+  {% if gift_card.enabled %}
+  <span class="gift-card__status gift-card__status--active">Active</span>
+  {% else %}
+  <span class="gift-card__status gift-card__status--disabled">Disabled</span>
+  {% endif %}
+
+  <div class="gift-card__code-wrap">
+    <p class="gift-card__code" id="gift-card-code" aria-label="Gift card code: {{ gift_card.code | format_code }}">{{ gift_card.code | format_code }}</p>
+    {% if gift_card.expires_on %}
+    <p class="gift-card__expires">Expires {{ gift_card.expires_on | date: '%B %d, %Y' }}</p>
+    {% endif %}
+  </div>
+
+  <div class="gift-card__qr">{{ gift_card | qr_code }}</div>
+
+  <div class="gift-card__actions">
+    {% if gift_card.pass_url %}
+    <a href="{{ gift_card.pass_url }}" class="btn btn--secondary">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg>
+      Add to Apple Wallet
+    </a>
+    {% endif %}
+    <button class="btn btn--primary" onclick="window.print()" type="button">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+      Print Gift Card
+    </button>
+    <a href="{{ routes.root_url }}" class="btn btn--secondary">Start Shopping</a>
+  </div>
+
+  <p class="gift-card__note">
+    To redeem this gift card, enter the code at checkout.<br>
+    This gift card does not expire and cannot be exchanged for cash.
+  </p>
+</main>
+</body>
+</html>

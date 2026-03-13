@@ -24,27 +24,31 @@
       "product_show_rating": true,
       "product_delivery_min_days": 3,
       "product_delivery_max_days": 7,
-      "product_tax_note": "",
       "product_trust_1": "Free Shipping on Orders $100+",
       "product_trust_2": "30-Day Returns",
       "product_trust_3": "Secure Checkout",
-      "product_trust_4": "",
       "product_show_share": true,
       "sections": {
-        "announcement-bar": {
-          "type": "announcement-bar",
-          "settings": {
-            "show_announcement": true,
-            "text": "Coming Soon....",
-            "link": ""
-          }
-        },
-        "header": {
-          "type": "header",
-          "settings": {
-            "menu": "main-menu",
-            "show_announcement": true
-          }
+        "header-group": {
+          "type": "header-group",
+          "sections": {
+            "announcement-bar": {
+              "type": "announcement-bar",
+              "settings": {
+                "show_announcement": true,
+                "text": "Coming Soon....",
+                "link": ""
+              }
+            },
+            "header": {
+              "type": "header",
+              "settings": {
+                "menu": "main-menu",
+                "show_announcement": true
+              }
+            }
+          },
+          "order": ["announcement-bar", "header"]
         },
         "cart-drawer": {
           "type": "cart-drawer",
@@ -55,42 +59,24 @@
             "shipping_progress_text": "Add <strong>[amount]</strong> more for <strong>free shipping</strong>"
           }
         },
-        "footer": {
-          "type": "footer",
-          "blocks": {
-            "footer-0": {
-              "type": "menu",
+        "footer-group": {
+          "type": "footer-group",
+          "sections": {
+            "footer": {
+              "type": "footer",
+              "blocks": {
+                "footer-0": {"type": "menu", "settings": {"heading": "Customer Care", "menu": "footer"}},
+                "footer-1": {"type": "menu", "settings": {"heading": "Our Company", "menu": "footer"}},
+                "footer-2": {"type": "menu", "settings": {"heading": "Quick Links", "menu": "footer"}}
+              },
+              "block_order": ["footer-0", "footer-1", "footer-2"],
               "settings": {
-                "heading": "Customer Care",
-                "menu": "footer"
-              }
-            },
-            "footer-1": {
-              "type": "menu",
-              "settings": {
-                "heading": "Our Company",
-                "menu": "footer"
-              }
-            },
-            "footer-2": {
-              "type": "menu",
-              "settings": {
-                "heading": "Quick Links",
-                "menu": "footer"
+                "about_text": "We curate premium products for those who appreciate quality, craftsmanship, and timeless design.",
+                "address_text": ""
               }
             }
           },
-          "block_order": [
-            "footer-0",
-            "footer-1",
-            "footer-2"
-          ],
-          "settings": {
-            "about_text": "We curate premium products for those who appreciate quality, craftsmanship, and timeless design.",
-            "address_text": "",
-            "whatsapp_number": "",
-            "support_email": ""
-          }
+          "order": ["footer"]
         }
       },
       "content_for_index": []
