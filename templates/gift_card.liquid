@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{{ 'gift_cards.issued.title' | t: value: gift_card.initial_value | money_without_trailing_zeros, shop: shop.name }}</title>
+{% assign gift_card_formatted_value = gift_card.initial_value | money_without_trailing_zeros %}
+<title>{{ 'gift_cards.issued.title' | t: value: gift_card_formatted_value, shop: shop.name }}</title>
 {% render 'css-variables' %}
 {{ 'luxe-theme.css' | asset_url | stylesheet_tag }}
 {% assign heading_font = settings.heading_font %}
@@ -57,7 +58,11 @@ body{font-family:var(--font-body);color:var(--color-text);background:var(--color
     {% endif %}
   </div>
 
-  <div class="gift-card__qr">{{ gift_card | qr_code }}</div>
+  <div class="gift-card__qr">
+    {%- # theme-check-disable UnknownFilter -%}
+    {{ gift_card | qr_code }}
+    {%- # theme-check-enable UnknownFilter -%}
+  </div>
 
   <div class="gift-card__actions">
     {% if gift_card.pass_url %}

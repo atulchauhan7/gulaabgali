@@ -86,10 +86,7 @@ data-product-image="{% if product.featured_image != blank %}{{ product.featured_
 {% if product.type != blank %}
 <div class="product-card__type">{{ product.type }}</div>
 {% endif %}
-{% for tag in product.tags %}
-{% assign tag_lower = tag | downcase %}
-{% comment %} Custom tag display removed — use product.type or variant metafields instead {% endcomment %}
-{% endfor %}
+
 <a href="{{ product.url }}" class="product-card__title-link">
 <h3 class="product-card__title">{{ product.title }}</h3>
 </a>
