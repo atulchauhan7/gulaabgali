@@ -14,12 +14,12 @@
 
 <div class="form-group">
 <label class="form-label" for="login-email">Email</label>
-<input class="form-input" type="email" id="login-email" name="customer[email]" required autocomplete="email">
+<input class="form-input" type="email" id="login-email" name="customer[email]" required autocomplete="email" value="{% if form.email %}{{ form.email | escape }}{% endif %}">
 </div>
 
 <div class="form-group">
 <label class="form-label" for="login-password">Password</label>
-<input class="form-input" type="password" id="login-password" name="customer[password]" required>
+<input class="form-input" type="password" id="login-password" name="customer[password]" required autocomplete="current-password">
 </div>
 
 <div class="form-row">
@@ -72,7 +72,7 @@ function showRecover(e){if(e)e.preventDefault();loginForm.style.display='none';r
 function showLogin(e){if(e)e.preventDefault();recoverForm.style.display='none';loginForm.style.display='block'}
 if(recoverLink)recoverLink.addEventListener('click',showRecover);
 if(cancelRecover)cancelRecover.addEventListener('click',showLogin);
-if(window.location.hash==='#recover')showRecover();
+if(window.location.hash==='#recover' || window.location.hash==='#recover-password')showRecover();
 })();
 </script>
 </div>

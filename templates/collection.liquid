@@ -1,5 +1,10 @@
 <div class="collection-page">
 <div class="container">
+{% assign collection_title_downcase = collection.title | downcase %}
+{% assign is_summer_sale_collection = false %}
+{% if collection.handle == 'summer-sale' or collection.handle == 'summer-special' or collection.handle contains 'summer' or collection_title_downcase contains 'summer sale' or collection_title_downcase contains 'summer special' %}
+  {% assign is_summer_sale_collection = true %}
+{% endif %}
 <nav class="collection-breadcrumbs" data-animate="fade-up">
   <a href="{{ routes.root_url }}">Home</a>
   <span aria-hidden="true">/</span>
@@ -25,10 +30,32 @@
 <p class="collection-desc">{{ collection.description }}</p>
 {% endif %}
 {% paginate collection.products by 12 %}
-<div class="grid grid--4" data-animate-stagger>
+<div class="grid grid--4" data-animate-stagger {% if is_summer_sale_collection %}data-summer-sale-grid{% endif %}>
 {% for product in collection.products %}
 <div data-animate="fade-up">
-{% render 'product-card', product: product %}
+{% assign summer_card_index = forloop.index0 %}
+{% if paginate.current_offset %}
+  {% assign summer_card_index = paginate.current_offset | plus: forloop.index0 %}
+{% endif %}
+{% assign summer_ribbon_text = blank %}
+{% assign summer_ribbon_modifier = 'sale' %}
+{% if is_summer_sale_collection %}
+  {% assign summer_ribbon_slot = summer_card_index | modulo: 10 %}
+  {% if summer_ribbon_slot < 5 %}
+    {% assign summer_ribbon_text = 'Sale @30% Off' %}
+    {% assign summer_ribbon_modifier = 'sale' %}
+  {% elsif summer_ribbon_slot < 8 %}
+    {% assign summer_ribbon_text = 'Bestseller' %}
+    {% assign summer_ribbon_modifier = 'bestseller' %}
+  {% elsif summer_ribbon_slot == 8 %}
+    {% assign summer_ribbon_text = 'New In' %}
+    {% assign summer_ribbon_modifier = 'new' %}
+  {% else %}
+    {% assign summer_ribbon_text = 'Most Bought' %}
+    {% assign summer_ribbon_modifier = 'most-bought' %}
+  {% endif %}
+{% endif %}
+{% render 'product-card', product: product, enable_collection_quick_add: is_summer_sale_collection, collection_context: collection, ribbon_text_override: summer_ribbon_text, ribbon_modifier_override: summer_ribbon_modifier %}
 </div>
 {% endfor %}
 </div>
@@ -36,5 +63,36 @@
 {% render 'pagination', paginate: paginate %}
 {% endif %}
 {% endpaginate %}
+
+{% if is_summer_sale_collection %}
+<div class="product-card-modal" data-product-card-modal aria-hidden="true">
+  <div class="product-card-modal__backdrop" data-product-card-modal-close></div>
+  <div class="product-card-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="ProductCardModalTitle" tabindex="-1">
+    <button type="button" class="product-card-modal__close" aria-label="Close variant selector" data-product-card-modal-close>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+    <div class="product-card-modal__content">
+      <div class="product-card-modal__media">
+        <img src="" alt="" loading="lazy" width="320" height="400" data-product-card-modal-image>
+      </div>
+      <div class="product-card-modal__details">
+        <p class="product-card-modal__eyebrow">Quick Add</p>
+        <h2 class="product-card-modal__title" id="ProductCardModalTitle" data-product-card-modal-title></h2>
+        <p class="product-card-modal__price" data-product-card-modal-price></p>
+        <form class="product-card-modal__form" data-product-card-modal-form>
+          <div class="product-card-modal__options" data-product-card-modal-options></div>
+          <p class="product-card-modal__error" data-product-card-modal-error hidden></p>
+          <button type="submit" class="btn btn--primary btn--full product-card-modal__submit" data-product-card-modal-submit disabled>
+            Continue
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
 </div>
 </div>

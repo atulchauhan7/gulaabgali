@@ -1,14 +1,74 @@
 {% if section.settings.show_announcement %}
-<div class="announcement-bar marquee-pausable" role="banner">
-{% if section.settings.link != blank %}<a href="{{ section.settings.link }}" class="announcement-bar__link">{% endif %}
-<div class="announcement-bar__marquee" aria-live="off">
-<span>{{ section.settings.text }}</span>
-{% for i in (2..6) %}
-<span aria-hidden="true">{{ section.settings.text }}</span>
-{% endfor %}
+<div class="announcement-bar announcement-bar--countdown" role="banner" data-countdown-end="2026-03-26T23:59:59+05:30">
+  {% if section.settings.link != blank %}<a href="{{ section.settings.link }}" class="announcement-bar__link announcement-bar__link--countdown">{% endif %}
+  <div class="announcement-bar__content" aria-live="polite">
+    <span class="announcement-bar__label">Sale Ends In</span>
+    <span class="announcement-bar__timer" data-announcement-countdown>
+      <span data-countdown-days>00</span>
+      <span class="announcement-bar__timer-unit">d</span>
+      <span data-countdown-hours>00</span>
+      <span class="announcement-bar__timer-unit">h</span>
+      <span data-countdown-minutes>00</span>
+      <span class="announcement-bar__timer-unit">m</span>
+      <span data-countdown-seconds>00</span>
+      <span class="announcement-bar__timer-unit">s</span>
+    </span>
+  </div>
+  {% if section.settings.link != blank %}</a>{% endif %}
 </div>
-{% if section.settings.link != blank %}</a>{% endif %}
-</div>
+
+<script>
+  (function() {
+    function initAnnouncementCountdown() {
+      var bar = document.querySelector('.announcement-bar--countdown');
+      if (!bar || bar.dataset.countdownBound === 'true') return;
+      bar.dataset.countdownBound = 'true';
+
+      var endAt = bar.getAttribute('data-countdown-end');
+      var endTime = new Date(endAt).getTime();
+      if (!endTime) return;
+
+      var daysEl = bar.querySelector('[data-countdown-days]');
+      var hoursEl = bar.querySelector('[data-countdown-hours]');
+      var minutesEl = bar.querySelector('[data-countdown-minutes]');
+      var secondsEl = bar.querySelector('[data-countdown-seconds]');
+
+      function pad(value) {
+        return String(value).padStart(2, '0');
+      }
+
+      function updateCountdown() {
+        var remaining = endTime - Date.now();
+
+        if (remaining <= 0) {
+          daysEl.textContent = '00';
+          hoursEl.textContent = '00';
+          minutesEl.textContent = '00';
+          secondsEl.textContent = '00';
+          return;
+        }
+
+        var totalSeconds = Math.floor(remaining / 1000);
+        var days = Math.floor(totalSeconds / 86400);
+        var hours = Math.floor((totalSeconds % 86400) / 3600);
+        var minutes = Math.floor((totalSeconds % 3600) / 60);
+        var seconds = totalSeconds % 60;
+
+        daysEl.textContent = pad(days);
+        hoursEl.textContent = pad(hours);
+        minutesEl.textContent = pad(minutes);
+        secondsEl.textContent = pad(seconds);
+      }
+
+      updateCountdown();
+      window.setInterval(updateCountdown, 1000);
+    }
+
+    document.addEventListener('DOMContentLoaded', initAnnouncementCountdown);
+    document.addEventListener('shopify:section:load', initAnnouncementCountdown);
+    initAnnouncementCountdown();
+  })();
+</script>
 {% endif %}
 
 {% schema %}
