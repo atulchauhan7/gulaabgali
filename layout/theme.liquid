@@ -160,7 +160,7 @@ setTimeout(function(){
   var h=window.location.hostname;
   var isLocal=(h==='localhost'||h==='127.0.0.1');
   var realHost={{ shop.permanent_domain | json }};
-  window.Shopflo=Object.assign({},window.Shopflo||{},{autoOnboarding:true});
+  window.Shopflo=Object.assign({},window.Shopflo||{},{autoOnboarding:false});
   if(isLocal&&realHost){
     var _fetch=window.fetch;
     window.fetch=function(url,opts){

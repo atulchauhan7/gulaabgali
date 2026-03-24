@@ -121,55 +121,31 @@ data-product-image="{% if product.featured_image != blank %}{{ product.featured_
 </button>
 {% else %}
 {% if collection_quick_add_enabled %}
-<button
-  class="product-card__quick-add-btn"
-  type="button"
-  data-product-card-trigger
-  data-product-handle="{{ product.handle }}"
->
+<button class="product-card__quick-add-btn" type="button" data-product-card-trigger>
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
 <span>Add to Cart</span>
 </button>
-<script type="application/json" class="product-card__variant-data" data-product-card-json>
-{
-  "id": {{ product.id | json }},
-  "handle": {{ product.handle | json }},
-  "title": {{ product.title | json }},
-  "url": {{ product.url | json }},
-  "featured_image": {% if product.featured_image != blank %}{{ product.featured_image | image_url: width: 600 | json }}{% else %}null{% endif %},
-  "price": {{ product.price | money | json }},
-  "options": [
-    {% for option in product.options_with_values %}
-      {
-        "name": {{ option.name | json }},
-        "position": {{ option.position | json }},
-        "values": [
-          {% for value in option.values %}
-            {{ value | json }}{% unless forloop.last %},{% endunless %}
-          {% endfor %}
-        ]
-      }{% unless forloop.last %},{% endunless %}
-    {% endfor %}
-  ],
-  "variants": [
-    {% for variant in product.variants %}
-      {
-        "id": {{ variant.id | json }},
-        "title": {{ variant.title | json }},
-        "available": {{ variant.available | json }},
-        "price": {{ variant.price | money | json }},
-        "option1": {{ variant.option1 | json }},
-        "option2": {{ variant.option2 | json }},
-        "option3": {{ variant.option3 | json }}
-      }{% unless forloop.last %},{% endunless %}
-    {% endfor %}
-  ]
-}
+<script type="application/json" data-product-card-json>
+  {
+    "title": {{ product.title | json }},
+    "image": {% if product.featured_image != blank %}{{ product.featured_image | image_url: width: 240 | json }}{% else %}null{% endif %},
+    "options": {{ product.options | json }},
+    "variants": [
+      {% for variant in product.variants %}
+        {
+          "id": {{ variant.id | json }},
+          "title": {{ variant.title | json }},
+          "available": {{ variant.available | json }},
+          "options": {{ variant.options | json }}
+        }{% unless forloop.last %},{% endunless %}
+      {% endfor %}
+    ]
+  }
 </script>
 {% else %}
 <a href="{{ product.url }}" class="product-card__quick-add-btn">
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-<span>Select Options</span>
+<span>{% if collection_quick_add_enabled %}Add to Cart{% else %}Select Options{% endif %}</span>
 </a>
 {% endif %}
 {% endif %}

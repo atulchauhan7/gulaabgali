@@ -41,16 +41,19 @@
 {% assign summer_ribbon_modifier = 'sale' %}
 {% if is_summer_sale_collection %}
   {% assign summer_ribbon_slot = summer_card_index | modulo: 10 %}
-  {% if summer_ribbon_slot < 5 %}
-    {% assign summer_ribbon_text = 'Sale @30% Off' %}
+  {% if summer_ribbon_slot < 3 %}
+    {% assign summer_ribbon_text = 'Sale' %}
     {% assign summer_ribbon_modifier = 'sale' %}
-  {% elsif summer_ribbon_slot < 8 %}
+  {% elsif summer_ribbon_slot < 6 %}
     {% assign summer_ribbon_text = 'Bestseller' %}
     {% assign summer_ribbon_modifier = 'bestseller' %}
+  {% elsif summer_ribbon_slot < 8 %}
+    {% assign summer_ribbon_text = 'Only Few Left' %}
+    {% assign summer_ribbon_modifier = 'few-left' %}
   {% elsif summer_ribbon_slot == 8 %}
     {% assign summer_ribbon_text = 'New In' %}
     {% assign summer_ribbon_modifier = 'new' %}
-  {% else %}
+  {% elsif summer_ribbon_slot == 9 %}
     {% assign summer_ribbon_text = 'Most Bought' %}
     {% assign summer_ribbon_modifier = 'most-bought' %}
   {% endif %}
@@ -66,33 +69,27 @@
 
 {% if is_summer_sale_collection %}
 <div class="product-card-modal" data-product-card-modal aria-hidden="true">
-  <div class="product-card-modal__backdrop" data-product-card-modal-close></div>
-  <div class="product-card-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="ProductCardModalTitle" tabindex="-1">
-    <button type="button" class="product-card-modal__close" aria-label="Close variant selector" data-product-card-modal-close>
+  <div class="product-card-modal__backdrop" data-product-card-close></div>
+  <div class="product-card-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="summer-card-modal-title">
+    <button class="product-card-modal__close" type="button" aria-label="Close" data-product-card-close>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <line x1="18" y1="6" x2="6" y2="18"/>
         <line x1="6" y1="6" x2="18" y2="18"/>
       </svg>
     </button>
+    <div class="product-card-modal__media-wrap">
+      <img class="product-card-modal__image" src="" alt="" data-product-card-modal-image>
+    </div>
     <div class="product-card-modal__content">
-      <div class="product-card-modal__media">
-        <img src="" alt="" loading="lazy" width="320" height="400" data-product-card-modal-image>
-      </div>
-      <div class="product-card-modal__details">
-        <p class="product-card-modal__eyebrow">Quick Add</p>
-        <h2 class="product-card-modal__title" id="ProductCardModalTitle" data-product-card-modal-title></h2>
-        <p class="product-card-modal__price" data-product-card-modal-price></p>
-        <form class="product-card-modal__form" data-product-card-modal-form>
-          <div class="product-card-modal__options" data-product-card-modal-options></div>
-          <p class="product-card-modal__error" data-product-card-modal-error hidden></p>
-          <button type="submit" class="btn btn--primary btn--full product-card-modal__submit" data-product-card-modal-submit disabled>
-            Continue
-          </button>
-        </form>
-      </div>
+      <p class="product-card-modal__eyebrow">Select your variant</p>
+      <h2 class="product-card-modal__title" id="summer-card-modal-title" data-product-card-modal-title></h2>
+      <div class="product-card-modal__options" data-product-card-modal-options></div>
+      <p class="product-card-modal__status" data-product-card-modal-status>Select an option to continue.</p>
+      <button class="product-card-modal__submit" type="button" disabled data-product-card-modal-submit>Continue</button>
     </div>
   </div>
 </div>
 {% endif %}
+
 </div>
 </div>
