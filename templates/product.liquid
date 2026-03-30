@@ -624,9 +624,7 @@ decoding="async"
 
 {% comment %} Size Chart Modal — Tabbed {% endcomment %}
 {% assign sc = product.metafields.custom.size_chart.value %}
-{% assign sc_img = product.metafields.custom.size_chart_image %}
-{% if has_size_option %}
-{% if sc_img != blank %}{% assign sc_first_tab = 'image' %}{% elsif sc != blank %}{% assign sc_first_tab = 'chart' %}{% else %}{% assign sc_first_tab = 'measure' %}{% endif %}
+{% if sc != blank %}
 <div class="size-chart-overlay" id="size-chart-modal" aria-hidden="true">
 <div class="size-chart-modal">
   <div class="size-chart-modal__header">
@@ -636,77 +634,32 @@ decoding="async"
     </button>
   </div>
   <div class="size-chart-modal__tabs">
-    {% if sc_img != blank %}
-      {% if sc_first_tab == 'image' %}
-      <button class="size-chart-tab active" data-sc-tab="image" type="button">Size Chart</button>
-      {% else %}
-      <button class="size-chart-tab" data-sc-tab="image" type="button">Size Chart</button>
-      {% endif %}
-    {% endif %}
-    {% if sc != blank %}
-      {% if sc_first_tab == 'chart' %}
-      <button class="size-chart-tab active" data-sc-tab="chart" type="button">{% if sc_img != blank %}Measurement Guide{% else %}Size Chart{% endif %}</button>
-      {% else %}
-      <button class="size-chart-tab" data-sc-tab="chart" type="button">Measurement Guide</button>
-      {% endif %}
-    {% endif %}
-    {% if sc_first_tab == 'measure' %}
-    <button class="size-chart-tab active" data-sc-tab="measure" type="button">How to Measure</button>
-    {% else %}
+    <button class="size-chart-tab active" data-sc-tab="chart" type="button">Size Chart</button>
     <button class="size-chart-tab" data-sc-tab="measure" type="button">How to Measure</button>
-    {% endif %}
   </div>
   <div class="size-chart-modal__body">
-    <!-- Tab: Size Chart Image -->
-    {% if sc_img != blank %}
-      {% if sc_first_tab == 'image' %}
-      <div class="size-chart-panel active" data-sc-panel="image">
-      {% else %}
-      <div class="size-chart-panel" data-sc-panel="image">
-      {% endif %}
-        <div class="size-chart-image-wrap">
-          <img
-            src="{{ sc_img | image_url: width: 1200 }}"
-            alt="{{ sc_img.alt | default: 'Size chart' | escape }}"
-            width="{{ sc_img.width }}"
-            height="{{ sc_img.height }}"
-            loading="lazy"
-            style="max-width:100%;height:auto;border-radius:8px;"
-          >
-        </div>
+    <!-- Tab: Size Chart -->
+    <div class="size-chart-panel active" data-sc-panel="chart">
+      <p class="size-chart-modal__note">All measurements in <strong>{{ sc.unit | default: 'inches' }}</strong>. Your selected size is highlighted.</p>
+      <div class="size-chart-modal__table-wrap">
+        <table class="size-chart-table" data-size-chart>
+          <thead>
+            <tr>{% for col in sc.headers %}<th scope="col">{{ col }}</th>{% endfor %}</tr>
+          </thead>
+          <tbody>
+            {% for row in sc.rows %}
+            <tr data-size="{{ row[0] }}">{% for cell in row %}<td>{{ cell }}</td>{% endfor %}</tr>
+            {% endfor %}
+          </tbody>
+        </table>
       </div>
-    {% endif %}
-    {% if sc != blank %}
-      {% if sc_first_tab == 'chart' %}
-      <div class="size-chart-panel active" data-sc-panel="chart">
-      {% else %}
-      <div class="size-chart-panel" data-sc-panel="chart">
-      {% endif %}
-        <p class="size-chart-modal__note">All measurements in <strong>{{ sc.unit | default: 'inches' }}</strong>. Your selected size is highlighted.</p>
-        <div class="size-chart-modal__table-wrap">
-          <table class="size-chart-table" data-size-chart>
-            <thead>
-              <tr>{% for col in sc.headers %}<th scope="col">{{ col }}</th>{% endfor %}</tr>
-            </thead>
-            <tbody>
-              {% for row in sc.rows %}
-              <tr data-size="{{ row[0] }}">{% for cell in row %}<td>{{ cell }}</td>{% endfor %}</tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
-        <p class="size-chart-modal__tip">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-          Between sizes? Go one size up for a relaxed fit.
-        </p>
-      </div>
-    {% endif %}
+      <p class="size-chart-modal__tip">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        Between sizes? Go one size up for a relaxed fit.
+      </p>
+    </div>
     <!-- Tab: How to Measure -->
-    {% if sc_first_tab == 'measure' %}
-    <div class="size-chart-panel active" data-sc-panel="measure">
-    {% else %}
     <div class="size-chart-panel" data-sc-panel="measure">
-    {% endif %}
       <div class="measure-guide">
         <div class="measure-guide__item">
           <div class="measure-guide__icon">

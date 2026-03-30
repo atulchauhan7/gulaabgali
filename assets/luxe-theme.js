@@ -1268,6 +1268,14 @@ overlay.addEventListener('click',function(e){
 if(e.target===overlay)overlay.classList.remove('open');
 });
 }
+/* Open native size chart modal when trigger is clicked (fallback when Kiwi not configured) */
+$$('.size-chart-trigger').forEach(function(trigger){
+trigger.addEventListener('click',function(e){
+e.preventDefault();
+var modal=document.getElementById('size-chart-modal');
+if(modal){modal.classList.add('open');modal.removeAttribute('aria-hidden');}
+});
+});
 }
 initSizeChartTabs();
 
