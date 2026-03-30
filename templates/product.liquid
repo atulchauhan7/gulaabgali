@@ -195,6 +195,12 @@ decoding="async"
   {% endif %}
 
   <!-- Product form -->
+  {% comment %} Pre-compute whether this product has a Size option — used to always render native size chart modal {% endcomment %}
+  {% assign has_size_option = false %}
+  {% for _opt in product.options %}
+    {% assign _opt_l = _opt | downcase %}
+    {% if _opt_l == 'size' or _opt_l == 'sizes' %}{% assign has_size_option = true %}{% endif %}
+  {% endfor %}
   {% form 'product', product, data-add-to-cart: true, data-product-form: true %}
   <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
 
@@ -619,8 +625,8 @@ decoding="async"
 {% comment %} Size Chart Modal — Tabbed {% endcomment %}
 {% assign sc = product.metafields.custom.size_chart.value %}
 {% assign sc_img = product.metafields.custom.size_chart_image %}
-{% if sc != blank or sc_img != blank %}
-{% if sc_img != blank %}{% assign sc_first_tab = 'image' %}{% else %}{% assign sc_first_tab = 'chart' %}{% endif %}
+{% if has_size_option %}
+{% if sc_img != blank %}{% assign sc_first_tab = 'image' %}{% elsif sc != blank %}{% assign sc_first_tab = 'chart' %}{% else %}{% assign sc_first_tab = 'measure' %}{% endif %}
 <div class="size-chart-overlay" id="size-chart-modal" aria-hidden="true">
 <div class="size-chart-modal">
   <div class="size-chart-modal__header">
@@ -644,7 +650,11 @@ decoding="async"
       <button class="size-chart-tab" data-sc-tab="chart" type="button">Measurement Guide</button>
       {% endif %}
     {% endif %}
+    {% if sc_first_tab == 'measure' %}
+    <button class="size-chart-tab active" data-sc-tab="measure" type="button">How to Measure</button>
+    {% else %}
     <button class="size-chart-tab" data-sc-tab="measure" type="button">How to Measure</button>
+    {% endif %}
   </div>
   <div class="size-chart-modal__body">
     <!-- Tab: Size Chart Image -->
@@ -692,7 +702,11 @@ decoding="async"
       </div>
     {% endif %}
     <!-- Tab: How to Measure -->
+    {% if sc_first_tab == 'measure' %}
+    <div class="size-chart-panel active" data-sc-panel="measure">
+    {% else %}
     <div class="size-chart-panel" data-sc-panel="measure">
+    {% endif %}
       <div class="measure-guide">
         <div class="measure-guide__item">
           <div class="measure-guide__icon">
