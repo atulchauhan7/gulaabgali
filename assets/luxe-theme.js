@@ -1226,45 +1226,6 @@ openSheet('buy');
 }
 initSizeSheet();
 
-/* === KIWI SIZE CHART BRIDGE === */
-function initKiwiSizeChartBridge(){
-var triggers=$$('.kiwi-sizing-chart-trigger[data-kiwisizing]');
-if(!triggers.length)return;
-function openNativeSizeGuide(){
-var modal=document.getElementById('size-chart-modal');
-if(modal)modal.classList.add('open');
-}
-function openKiwi(trigger){
-var handle=trigger?trigger.getAttribute('data-product-handle'):'';
-try{
-if(window.kiwiSizing&&typeof window.kiwiSizing.openSizingChart==='function'){
-window.kiwiSizing.openSizingChart();
-return true;
-}
-if(window.KiwiSizing&&typeof window.KiwiSizing.openSizingChart==='function'){
-window.KiwiSizing.openSizingChart();
-return true;
-}
-if(window.KiwiSizing&&typeof window.KiwiSizing.showSizingChart==='function'){
-window.KiwiSizing.showSizingChart();
-return true;
-}
-if(window.KiwiSizing&&typeof window.KiwiSizing.open==='function'){
-window.KiwiSizing.open(handle||undefined);
-return true;
-}
-}catch(e){}
-return false;
-}
-triggers.forEach(function(trigger){
-trigger.addEventListener('click',function(e){
-e.preventDefault();
-if(!openKiwi(this))openNativeSizeGuide();
-});
-});
-}
-initKiwiSizeChartBridge();
-
 /* === SIZE CHART TABS + SELECTED SIZE HIGHLIGHT === */
 function initSizeChartTabs(){
 var tabs=$$('.size-chart-tab');
