@@ -34,7 +34,7 @@
     "product_show_rating": true,
     "product_delivery_min_days": 5,
     "product_delivery_max_days": 7,
-    "product_tax_note": "incl. of all taxes",
+    "product_tax_note": "incl. of all taxes  <br> <p style=\"color:  #972059; font-weight: 15px\"> 🎁 Free gift on prepaid orders  </p>",
     "product_trust_1": "Free Shipping ₹999+",
     "product_trust_2": "10-Day Returns",
     "product_trust_3": "Secure Checkout",
@@ -48,7 +48,7 @@
           "show_announcement": true,
           "text": "Flat 30% Off on Everything!",
           "link": "",
-          "timer_end": "2026-03-31T23:59:59"
+          "timer_end": ""
         }
       },
       "header": {
